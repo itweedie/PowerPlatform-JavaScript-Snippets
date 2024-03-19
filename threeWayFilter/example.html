@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Location Dropdowns</title>
+    <script>
+        // Define the sample JSON data array with locations.
+        const locations = [
+        { area: "North America", country: "USA", city: "New York" },
+        { area: "North America", country: "USA", city: "Los Angeles" },
+        { area: "North America", country: "Canada", city: "Toronto" },
+        { area: "North America", country: "Canada", city: "Vancouver" },
+        { area: "South America", country: "Brazil", city: "Sao Paulo" },
+        { area: "South America", country: "Brazil", city: "Rio de Janeiro" },
+        { area: "South America", country: "Argentina", city: "Buenos Aires" },
+        { area: "Europe", country: "UK", city: "London" },
+        { area: "Europe", country: "UK", city: "Manchester" },
+        { area: "Europe", country: "France", city: "Paris" },
+        { area: "Europe", country: "Germany", city: "Berlin" },
+        { area: "Europe", country: "Italy", city: "Rome" },
+        { area: "Asia", country: "China", city: "Beijing" },
+        { area: "Asia", country: "Japan", city: "Tokyo" },
+        { area: "Asia", country: "South Korea", city: "Seoul" },
+        { area: "Asia", country: "India", city: "Mumbai" },
+        { area: "Africa", country: "Egypt", city: "Cairo" },
+        { area: "Africa", country: "South Africa", city: "Cape Town" },
+        { area: "Africa", country: "Nigeria", city: "Lagos" },
+        { area: "Australia", country: "Australia", city: "Sydney" },
+        { area: "Australia", country: "Australia", city: "Melbourne" },
+        { area: "Middle East", country: "UAE", city: "Dubai" },
+        { area: "Middle East", country: "Saudi Arabia", city: "Riyadh" }
+            // ... (Add all other location rows here)
+        ];
+
+        // Function to run when the document is fully loaded.
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get references to the dropdown elements.
+            const areaDropdown = document.getElementById('areaDropdown');
+            const countryDropdown = document.getElementById('countryDropdown');
+            const cityDropdown = document.getElementById('cityDropdown');
+
+            // Populate the area dropdown with unique areas from the locations array.
+            const uniqueAreas = [...new Set(locations.map(item => item.area))];
+            uniqueAreas.forEach(area => {
+                areaDropdown.options.add(new Option(area, area));
+            });
+
+            // Set up event listeners for each dropdown to handle changes.
+            areaDropdown.addEventListener('change', function() {
+                updateDropdowns('area', this.value);
+            });
+
+            countryDropdown.addEventListener('change', function() {
+                updateDropdowns('country', this.value);
+            });
+
+            cityDropdown.addEventListener('change', function() {
+                updateDropdowns('city', this.value);
+            });
+
+            // Function to update the dropdowns based on the current selection.
+            function updateDropdowns(type, value) {
+                let filteredLocations = locations;
+
+                // Filter locations based on the selected value of a dropdown.
+                if (type === 'area') {
+                    filteredLocations = locations.filter(item => item.area === value);
+                } else if (type === 'country') {
+                    filteredLocations = locations.filter(item => item.country === value);
+                } else if (type === 'city') {
+                    filteredLocations = locations.filter(item => item.city === value);
+                }
+
+                // Update country and city dropdowns based on the filtered locations.
+                const uniqueCountries = [...new Set(filteredLocations.map(item => item.country))];
+                const uniqueCities = [...new Set(filteredLocations.map(item => item.city))];
+
+                // Clear existing options and add new options to the country and city dropdowns.
+                countryDropdown.options.length = 0;
+                cityDropdown.options.length = 0;
+
+                uniqueCountries.forEach(country => {
+                    countryDropdown.options.add(new Option(country, country));
+                });
+
+                uniqueCities.forEach(city => {
+                    cityDropdown.options.add(new Option(city, city));
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- Dropdowns for selecting area, country, and city -->
+    <select id="areaDropdown"></select>
+    <select id="countryDropdown"></select>
+    <select id="cityDropdown"></select>
+</body>
+</html>
