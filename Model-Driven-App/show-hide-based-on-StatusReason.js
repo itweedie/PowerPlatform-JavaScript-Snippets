@@ -1,3 +1,4 @@
+"use strict";
 function toggleByStatusReason(executionContext) {
     console.log("==== START show/hide Status Reason ===="); // Start log
 
